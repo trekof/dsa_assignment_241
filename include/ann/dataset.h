@@ -58,8 +58,8 @@ public:
     virtual DataLabel<DType, LType> getitem(int index) = 0;
     virtual xt::svector<unsigned long> get_data_shape() = 0;
     virtual xt::svector<unsigned long> get_label_shape() = 0;
-    virtual xt::xarray<DType> get_data_slice() = 0;
-    virtual xt::xarray<LType> get_label_slice() = 0;
+    virtual xt::xarray<DType> get_data_slice(int start_index, int end_index) = 0;
+    virtual xt::xarray<LType> get_label_slice(int start_index, int end_index) = 0;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -111,6 +111,16 @@ public:
     xt::svector<unsigned long> get_label_shape()
     {
         return this->label_shape;
+    }
+
+    xt::xarray<DType> get_data_slice(int start_index, int end_index)
+    {
+        return this->data(start_index : end_index, :);
+    }
+
+    xt::xarray<DType> get_label_slice(int start_index, int end_index)
+    {
+        return this->label(start_index : end_index, :);
     }
 };
 
